@@ -18,37 +18,6 @@ slovar = {
 }
 
 
-async def InlineRegMenu(isAdmin, isURL, id_, login_flag, log):
-    RegMenu = InlineKeyboardMarkup(row_width=1)
-    if isAdmin != 404:
-        DeleteData = f'EVENTdelete_{id_}'
-        DeleteButton = InlineKeyboardButton(text="УДАЛИТЬ МЕРОПРИЯТИЕ", callback_data=DeleteData)
-        RegMenu.insert(DeleteButton)
-    if login_flag == 1 and isURL == '0':
-        UnSubData = f'unsub_event_{id_}_{log}'
-        UnSubButton = InlineKeyboardButton(text="ОТПИСАТЬСЯ", callback_data=UnSubData)
-        RegMenu.insert(UnSubButton)
-        return RegMenu
-    if login_flag == 404 and isURL == '0':
-        SubData = f'sub_event_{id_}_{log}'
-        SubButton = InlineKeyboardButton(text="ПОДПИСАТЬСЯ", callback_data=SubData)
-        RegMenu.insert(SubButton)
-        return RegMenu
-    if isURL != '0':
-        UrlButton = InlineKeyboardButton(text="ПРИНЯТЬ УЧАСТИЕ", url=isURL)
-        RegMenu.insert(UrlButton)
-        return RegMenu
-
-
-async def InlineFormMenu(id_):
-    BackButton = InlineKeyboardButton(text="ВЕРНУТЬСЯ В ГЛАВНОЕ МЕНЮ", callback_data="go_back")
-    data = f'create_form_{id_}'
-    CreateFormButton = InlineKeyboardButton(text="СОЗДАТЬ ФОРМУ", callback_data=data)
-    EventFormMenu = InlineKeyboardMarkup(row_width=1)
-    EventFormMenu.insert(CreateFormButton).insert(BackButton)
-    return EventFormMenu
-
-
 async def try_sub(list_name, log):
     connection = mysql.connector.connect(
         host=host,

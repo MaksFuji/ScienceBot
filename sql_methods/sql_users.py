@@ -22,23 +22,6 @@ def create_connection():
         print("The error occurred", e)
 
 
-
-async def CreateAcessMenu(log, isAdmin, isTarget):
-    AcessMenu = InlineKeyboardMarkup(row_width=1)
-    if isTarget != '0':
-        Tdata = f'promotion_{log}_{isTarget}'
-        PromotionButton = InlineKeyboardButton(text = "ПОВЫСИТЬ", callback_data= Tdata)
-        AcessMenu.insert(PromotionButton)
-    if isAdmin == 404 and isTarget == '0':
-        Adata = f'make_admin_{log}'
-        HighAcessButton = InlineKeyboardButton(text = "СДЕЛАТЬ АДМИНИСТРАТОРОМ", callback_data= Adata)
-        AcessMenu.insert(HighAcessButton)
-    Ddata = f'USERdelete_{log}_{isTarget}'
-    DeleteButton = InlineKeyboardButton(text = "УДАЛИТЬ", callback_data= Ddata)
-    AcessMenu.insert(DeleteButton)
-    return AcessMenu
-
-
 async def promotion(log, target):
     connection = mysql.connector.connect(
             host=host,

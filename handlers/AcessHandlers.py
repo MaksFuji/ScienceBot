@@ -4,6 +4,7 @@ from create_bot import dp, bot
 from aiogram.dispatcher.filters import Text
 from aiogram.dispatcher import FSMContext
 from keyboards.reply_keyboards import  UserMainMenu, AdminMainMenu
+from keyboards.inline_keyboards import  CreateAcessMenu
 from sql_methods import sql_admins, sql_users
 from source import admin_states
 from source.admin_states import AdminState
@@ -35,7 +36,7 @@ async def ShowProcess(message : types.Message, state : FSMContext):
 		for i in range(0, len(UserList)):
 			isAdmin = await sql_admins.log_in(UserList[i][1])
 			target = await sql_users.extract_target(UserList[i][1])
-			menu = await sql_users.CreateAcessMenu(UserList[i][1], isAdmin, target)
+			menu = await CreateAcessMenu(UserList[i][1], isAdmin, target)
 			try:
 				t = f', желаемая должность: {slovar[UserList[i][5]]}'
 			except:
