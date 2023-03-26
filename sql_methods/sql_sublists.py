@@ -54,12 +54,12 @@ async def InlineFormMenu(id_):
 
 async def try_sub(list_name, log):
     connection = mysql.connector.connect(
-            host=host,
-            port = port,
-            user=user,
-            passwd=password,
-            database=db_name
-        )
+        host=host,
+        port=port,
+        user=user,
+        passwd=password,
+        database=db_name
+    )
     cursor = connection.cursor()
     try:
         querry = f'SELECT log FROM sublist{list_name} WHERE log = %s'
@@ -72,39 +72,47 @@ async def try_sub(list_name, log):
     finally:
         connection.close()
 
+
 async def create_sublist(list_name, columns):
     connection = mysql.connector.connect(
-            host=host,
-            port = port,
-            user=user,
-            passwd=password,
-            database=db_name
-        )
+        host=host,
+        port=port,
+        user=user,
+        passwd=password,
+        database=db_name
+    )
     cursor = connection.cursor()
     try:
         columns.append('log')
         table_name = 'sublist' + str(list_name)
         create_querry = 'CREATE TABLE IF NOT EXISTS ' + table_name + ' ('
         arr = columns
-        for i in range (1, len(arr)): #КОСТЫЛЬ
+        count = 0
+        for i in range(1, len(arr)):  # КОСТЫЛЬ
             if i == len(arr) - 1:
-                create_querry += arr[i] + ' ' + slovar[arr[i]] + ')' 
+                create_querry += arr[i] + ' ' + slovar[arr[i]] + ')'
                 break
-            create_querry += arr[i] + ' ' + slovar[arr[i]] + ','
+            match arr[i]:
+                case 'teammates':
+                    count = count + 1
+                    create_querry += arr[i] + str(count) + ' ' + slovar[arr[i]] + ','
+                case _:
+                    create_querry += arr[i] + ' ' + slovar[arr[i]] + ','
         cursor.execute(create_querry)
         connection.commit()
         return 1
     finally:
         connection.close()
 
+
 async def add_sub(list_name, columns, content):
     connection = mysql.connector.connect(
-            host=host,
-            port = port,
-            user=user,
-            passwd=password,
-            database=db_name
-        )
+        host=host,
+        port=port,
+        user=user,
+        passwd=password,
+        database=db_name
+    )
     cursor = connection.cursor()
     try:
         test_querry = f'SELECT log FROM sublist{list_name} WHERE log = %s'
@@ -114,24 +122,25 @@ async def add_sub(list_name, columns, content):
         else:
             table_querry = f'INSERT INTO sublist{list_name}('
             columns_arr = columns.split('/')
-            for i in range (0, len(columns_arr)):
+            for i in range(0, len(columns_arr)):
                 if i == len(columns_arr) - 1:
-                    table_querry += columns_arr[i] + ' ' + ') VALUES (' + ('%s,'*(len(columns_arr)-1)) + '%s)'
+                    table_querry += columns_arr[i] + ' ' + ') VALUES (' + ('%s,' * (len(columns_arr) - 1)) + '%s)'
                     break
-                table_querry += columns_arr[i]  + ','
+                table_querry += columns_arr[i] + ','
             cursor.execute(table_querry, content)
             connection.commit()
     finally:
         connection.close()
 
+
 async def extract_subs(list_name):
     connection = mysql.connector.connect(
-            host=host,
-            port = port,
-            user=user,
-            passwd=password,
-            database=db_name
-        )
+        host=host,
+        port=port,
+        user=user,
+        passwd=password,
+        database=db_name
+    )
     cursor = connection.cursor()
     try:
         table_name = 'sublist' + str(list_name)
@@ -147,12 +156,12 @@ async def extract_subs(list_name):
 
 async def delete_sub(list_name, log):
     connection = mysql.connector.connect(
-            host=host,
-            port = port,
-            user=user,
-            passwd=password,
-            database=db_name
-        )
+        host=host,
+        port=port,
+        user=user,
+        passwd=password,
+        database=db_name
+    )
     cursor = connection.cursor()
     try:
         table_name = 'sublist' + str(list_name)
@@ -164,12 +173,11 @@ async def delete_sub(list_name, log):
             delete_querry = 'DELETE FROM ' + table_name + ' WHERE log = %s'
             cursor.execute(delete_querry, [log])
             connection.commit()
-            return 1            
+            return 1
     finally:
         connection.close()
 
-
-#async def delete_sublist(name):
+# async def delete_sublist(name):
 #    connection = mysql.connector.connect(
 #            host=host,
 #            port = port,

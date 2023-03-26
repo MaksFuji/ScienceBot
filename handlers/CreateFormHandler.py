@@ -7,10 +7,10 @@ from aiogram.dispatcher import FSMContext
 from aiogram.dispatcher.filters.state import State, StatesGroup
 from datetime import datetime
 from keyboards.reply_keyboards import AdminMainMenu
-from sql_methods import sql_sublists, sql_qq
-from keyboards.reply_keyboards import AdminMainMenu, AdministrationMenu, FormColumnMenu
-#from keyboards import inline_keyboards
-import re 
+from sql_methods import sql_sublists, sql_qq, sql_events
+from keyboards.reply_keyboards import AdminMainMenu, AdministrationMenu, FormColumnMenu, FormNameColumnMenu
+# from keyboards import inline_keyboards
+import re
 from source import admin_states
 from source.admin_states import AdminState
 from aiogram.dispatcher.filters import Text
@@ -30,19 +30,21 @@ slovar = {
 }
 
 class FormSteps(StatesGroup):
-	NewColumn = State()
-	NewQuestion = State()
+    NewColumn = State()
+    NewCountTeammates = State()
+    NewName = State()
+    NewQuestion = State()
 
-async def WelcomeProcess(callback : types.CallbackQuery, state : FSMContext):
-	await state.reset_data()
-	a = callback.data.split('_')[2]
-	await state.update_data(id_ = a) #BUGFIX
-	await state.update_data(columns_arr = ['id', ])
-	await state.update_data(another_arr = [a, ])
-	await callback.message.answer('Выберите параметры для будующей формы', reply_markup = FormColumnMenu)
-	await FormSteps.NewColumn.set()
 
-async def ColumnProcess(message : types.Message, state : FSMContext):
+async def WelcomeProcess(callback: types.CallbackQuery, state: FSMContext):
+    await state.reset_data()
+    a = callback.data.split('_')[2]
+    await state.update_data(id_=a)  # BUGFIX
+    await state.update_data(columns_arr=['id', ])
+    await state.update_data(another_arr=[a, ])
+    await state.update_data(amount_members='0')
+    await callback.message.answer('Выберите параметры для будующей формы', reply_markup=FormColumnMenu)
+    await FormSteps.NewColumn.set()
 
 
 ############### ПРОВЕРКА КОМАНДЫ ПО СЛОВАРЮ ####################################
@@ -72,7 +74,16 @@ async def ColumnProcess(message : types.Message, state : FSMContext):
 		if MessageResult in data['columns_arr']:
 			await message.answer('Пожалуйста, введите новые параметры для формы')
 
-############### ВЫВОД ВЫБРАННЫХ ПАРАМЕТРОВ И СОХРАНЕНИЕ ####################################
+                    if 'teammates' in data['columns_arr']:
+                        count_teammates = data['amount_members']
+                        buffer_columns = data['columns_arr']
+                        buffer_columns.remove('teammates')
+                        team_columns = []
+                        int_count = int(count_teammates)
+                        for i in range(1, int_count):
+                            team_columns.append('teammates')
+                        buffer_columns.extend(team_columns)
+                        await state.update_data(columns_arr=buffer_columns)
 
 		else: 
 				
