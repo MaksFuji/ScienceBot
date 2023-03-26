@@ -24,7 +24,7 @@ slovar = {
     'Фото': 'photo',
     'Дата рождения': 'birth',
     'Факультет': 'faculty',
-    'Группа': 'group',
+    'Группа': 'study_group',
     'Курс': 'course',
     'Номер телефона': 'phone',
     'ФИО капитана команды': 'capitan',
@@ -40,7 +40,7 @@ slovar = {
 # reversed_slovar = dict((value, key) for key, value in slovar.items())
 
 reversed_slovar = {}
-for value, key in slovar.items():
+for key, value in slovar.items():
     reversed_slovar[value] = key
 
 
@@ -198,8 +198,7 @@ async def CountTeammates(message: types.Message, state: FSMContext):
 
 
 async def NameButton(message: types.Message, state: FSMContext):
-
-    if message.text not in slovar:
+    if (message.text not in slovar) or ((message.text != "ФИО капитана команды") and (message.text != "ФИО участника команды")):
         await message.answer("Пожалуйста, введите один из перечисленных параметров",
                              reply_markup=FormNameColumnMenu)
         return
