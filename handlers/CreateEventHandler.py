@@ -24,12 +24,27 @@ class CreatingSteps(StatesGroup):
 	Photo = State()
 
 async def SkipFunction (message : types.Message, state : FSMContext):
-	await CreatingSteps.Photo.set()
+	# await CreatingSteps.Photo.set()
+	await state.update_data(photo = 'https://awesomeworld.ru/wp-content/uploads/2017/11/kapibary_1-700x400.jpg')
 	await state.update_data(title = 'Крутое мероприятие')
 	await state.update_data(type = 'Гейское')
 	await state.update_data(description = 'НеНочная')
 	await state.update_data(date = '2023-11-20 00')
 	await state.update_data(source = 0)
+
+	data = await state.get_data()
+	result = await sql_events.add_event(data['title'], data['type'], data['description'], data['date'], data['photo'], 0, data['source'])
+	kb = await inline_keyboards.InlineFormMenu(result)
+	if data['source'] == 0: data['source'] = 'without source'
+	await bot.send_photo(message.from_user.id, data['photo'], f"""
+		Downloading finished!
+	+title : {data['title']}
+	+type : {data['type']}
+	+description : {data['description']}
+	+date : {data['date']}
+	+web resource : {data['source']}
+			""", reply_markup = kb)
+	await admin_states.SetAdmin()
 
 async def WelcomeProcess(message : types.Message):
 	await message.answer('Welcome text, send title', reply_markup = types.ReplyKeyboardRemove())
@@ -119,7 +134,9 @@ def register_CreatingEventHandler(dp : Dispatcher):
 	dp.register_message_handler(UploadTitle, state = CreatingSteps.Title)
 	dp.register_message_handler(ChooseType, state = CreatingSteps.Type)
 	dp.register_message_handler(UploadDescription, state = CreatingSteps.Description)
-	dp.register_message_handler(UploadDate, lambda message: re.findall(r"(\d{1,2}/\d{1,2}/\d{4}\s\d{1,2}:\d{1,2})",message.text), state = CreatingSteps.Date)
+	dp.register_message_handler(UploadDate,
+			     lambda message: re.findall(r"(\d{1,2}/\d{1,2}/\d{4}\s\d{1,2}:\d{1,2})", message.text), 
+				 state = CreatingSteps.Date)
 	dp.register_message_handler(ErrDate, state = CreatingSteps.Date)
 	dp.register_message_handler(UploadWebSource, lambda message: re.search(r'(https?://[\S]+)', message.text), state = CreatingSteps.WebSource)
 	dp.register_message_handler(ErrWebSource, state = CreatingSteps.WebSource)

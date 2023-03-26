@@ -7,6 +7,7 @@ from aiogram.dispatcher import FSMContext
 from aiogram.dispatcher.filters.state import State, StatesGroup
 from source.admin_states import AdminState
 from keyboards.reply_keyboards import AdminMainMenu, UserMainMenu
+from keyboards.inline_keyboards import InlineRegMenu
 from sql_methods import sql_admins, sql_sublists, sql_qq, sql_events
 
 
@@ -39,7 +40,7 @@ async def ShowEventsProcess(message : types.Message, state : FSMContext):
 			EventType = EventArray[i][6]
 			#ФОРМИРОВАНИЕ КЛАВИАТУРЫ
 			IsSub = await sql_sublists.try_sub(EventId, message.from_user.id)
-			Menu = await sql_sublists.InlineRegMenu(isAdmin, URL, EventId, IsSub, message.from_user.id)
+			Menu = await InlineRegMenu(isAdmin, URL, EventId, IsSub, message.from_user.id)
 			if EventPhotoId != 0:
 				await bot.send_photo(message.from_user.id, EventPhotoId, f"""{EventName}
 {EventType} мероприятие
