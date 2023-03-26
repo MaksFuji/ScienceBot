@@ -1,8 +1,10 @@
 from aiogram.types import InlineKeyboardMarkup, InlineKeyboardButton
 import mysql.connector
 from config import host, user, password, db_name, port
+import traceback
 
-global slovar
+### Здесь BirthDate, а в CreateFormHandler birth
+### тоже самое с group и group_
 slovar = {
     'log': 'INT',
     'name': 'TEXT',
@@ -34,6 +36,8 @@ async def try_sub(list_name, log):
             return 1
         else:
             return 404
+    except Exception:
+        print(traceback.format_exc())
     finally:
         connection.close()
 

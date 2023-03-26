@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Хост: 127.0.0.1:3306
--- Время создания: Окт 26 2022 г., 01:52
+-- Время создания: Мар 18 2023 г., 23:04
 -- Версия сервера: 10.3.22-MariaDB
 -- Версия PHP: 7.1.33
 
@@ -39,10 +39,9 @@ CREATE TABLE `admin` (
 
 INSERT INTO `admin` (`id`, `login`, `prjcts`) VALUES
 (20, '620712601', NULL),
-(26, '1432262023', NULL),
-(31, '811376722', NULL),
-(32, '1387992714', NULL),
-(33, '5331959203', NULL);
+(33, '5331959203', NULL),
+(34, '830411388', NULL),
+(35, '679990653', NULL);
 
 -- --------------------------------------------------------
 
@@ -72,8 +71,12 @@ INSERT INTO `events` (`id`, `name`, `description`, `e_date`, `image`, `locate`, 
 (117, 'Олеся стреляет пау пау', 'Олеся стреляет вуц пау пау, очень весело', '2022-11-12 20:00:00', 'AgACAgIAAxkBAAIXFmNW_HqK2_PQD_ixinCFA3K8JaA_AAKcvTEbKO24SjhX8frJqkEdAQADAgADcwADKgQ', 'Внутреннее', '0', 'https://www.youtube.com/', NULL),
 (118, 'Вуцвуцвуц', 'Мы боги, аееее', '2023-11-12 14:00:00', 'AgACAgIAAxkBAAIXKGNW_Iqp1Q0MM-ACn33Nca8gKsuMAAKuxTEbNF-4SiJ4Jn4gav6TAQADAgADcwADKgQ', 'Внешнее', '0', '0', NULL),
 (119, 'Кб-карш', 'Едем в КБ на карше', '2025-01-18 19:00:00', 'AgACAgIAAxkBAAIXS2NW_JulMyPSSTrGTHt8QuSIocYOAAKHxjEbV1W4SigK_pq1DlXCAQADAgADcwADKgQ', 'Внутреннее', '0', 'https://www.gismeteo.ru/weather-sankt-peterburg-4079/', NULL),
-(121, 'Крысоловы', 'Ищем , ищем, пипипи', '2022-11-11 11:11:00', 'AgACAgIAAxkBAAIXi2NW_Pm7bazXwlzG-ee_BDmGFyQZAAK1xTEbNF-4Sj6mED5xEAsOAQADAgADcwADKgQ', 'Внутреннее', '0', '0', NULL),
-(122, 'Ваня дрочит письку', '24/7', '2027-06-18 15:00:00', 'AgACAgIAAxkBAAIXj2NW_QwFPn3JnvJtOxfLtUn-dmnYAAKKxjEbV1W4ShRdmLNW5FvVAQADAgADcwADKgQ', 'Внешнее', '0', '0', NULL);
+(122, 'Ваня дрочит письку', '24/7', '2027-06-18 15:00:00', 'AgACAgIAAxkBAAIXj2NW_QwFPn3JnvJtOxfLtUn-dmnYAAKKxjEbV1W4ShRdmLNW5FvVAQADAgADcwADKgQ', 'Внешнее', '0', '0', NULL),
+(128, 'Крутое мероприятие', 'НеНочная', '2023-11-20 00:00:00', 'AgACAgIAAxkBAAJWTWPxIA4hqgABNhxqlUz0rKd25roq1wACbsYxG5wRiEuhV11fFEXeEQEAAwIAA3MAAy4E', 'Гейское', '0', '0', '_capitan_teammates1_teammates2_log'),
+(129, 'Крутое мероприятие', 'НеНочная', '2023-11-20 00:00:00', 'AgACAgIAAxkBAAJW62P7oqr90kkhmq1_2YAhbz_eV3zUAAI7yDEbmJjYS-TwM6B_BG66AQADAgADcwADLgQ', 'Гейское', '0', '0', '_capitan_description_teammates1_teammates2_teammates3_log'),
+(132, 'Крутое мероприятие', 'НеНочная', '2023-11-20 00:00:00', 'AgACAgIAAxkBAAJXyGQV9sbLOYlwbrDVUPa7iZ3RFKKlAALFzjEblpWwSC8gHSQ9HxOeAQADAgADcwADLwQ', 'Гейское', '0', '0', '_capitan_description_teammates1_teammates2_log'),
+(133, 'Крутое мероприятие', 'НеНочная', '2023-11-20 00:00:00', 'AgACAgIAAxkBAAJX9mQWBwmC_bojSqt4ZslfG9U5k4qqAAIYzzEblpWwSJPuAY7c-7lGAQADAgADcwADLwQ', 'Гейское', '0', '0', '_capitan_teammates1_teammates2_log'),
+(134, 'bvz', 'grfhdrty', '2023-09-12 20:00:00', 'AgACAgIAAxkBAAJYIGQWCI_JN21T8F45wugbeVTbz1YbAAIYzzEblpWwSJPuAY7c-7lGAQADAgADcwADLwQ', 'Внутреннее', '0', '0', '_description_log');
 
 -- --------------------------------------------------------
 
@@ -95,9 +98,9 @@ CREATE TABLE `inside_subs` (
 --
 
 INSERT INTO `inside_subs` (`id`, `login`, `name`, `photo`, `type`, `target`) VALUES
-(54, 1432262023, 'Николай Петрович', 'AgACAgIAAxkBAAIUmGNVnfsY-lhfWw4sdWHHybI-JhiaAAJswjEbxoqoSo0GnOAVT58UAQADAgADcwADKgQ', 'razrab', '0'),
-(61, 811376722, 'Воронин Иван', 'AgACAgIAAxkBAAIWY2NW-OROOdrefH0OupOucsTolkmEAAKaxTEbNF-4Sk6UNbZ3sbsjAQADAgADcwADKgQ', 'smm', '0'),
-(62, 1387992714, 'Абобус Олеся Дмитриевна', 'AgACAgIAAxkBAAIYCmNW_tMfFSEkA3JGHJfRVpVs3JOGAAJrvDEbTDCxSlor7uAyW37YAQADAgADcwADKgQ', 'smm', '0');
+(63, 5331959203, 'Нагорнов Максим Николаевич', 'AgACAgIAAxkBAAJVlmPxGOpWRyppvi2S_j2VSUZBMLf8AAJoxjEbnBGISz8Cey6jSOGaAQADAgADcwADLgQ', 'razrab', '0'),
+(64, 830411388, 'Савелов Дмитрий Юрьевич', 'AgACAgIAAxkBAAJWxmP7ogc0XyvO1TDcUhP3PNbqPc-dAAKOyDEbx5ThS9WzbNvlW90KAQADAgADcwADLgQ', 'razrab', '0'),
+(65, 679990653, 'Никитин Максим Владимирович', 'AgACAgIAAxkBAAJXmWQV8HXHcq67oBQ2ZNaVws8nbaYeAAJWxTEbUbGxSKuHxB7T2MbrAQADAgADcwADLwQ', 'razrab', '0');
 
 -- --------------------------------------------------------
 
@@ -144,15 +147,24 @@ CREATE TABLE `qq_list` (
   `for_birth` text DEFAULT NULL,
   `for_faculty` text DEFAULT NULL,
   `for_group` text DEFAULT NULL,
-  `for_course` text DEFAULT NULL
+  `for_course` text DEFAULT NULL,
+  `for_phone` int(11) DEFAULT NULL,
+  `for_capitan` text DEFAULT NULL,
+  `for_teammates` text DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Дамп данных таблицы `qq_list`
 --
 
-INSERT INTO `qq_list` (`for_id`, `for_log`, `for_name`, `for_description`, `for_photo`, `for_birth`, `for_faculty`, `for_group`, `for_course`) VALUES
-(1, 'Пожалуйста, отправьте мне своё фото)', 'Ну давай же', NULL, 'Давай', NULL, NULL, NULL, NULL);
+INSERT INTO `qq_list` (`for_id`, `for_log`, `for_name`, `for_description`, `for_photo`, `for_birth`, `for_faculty`, `for_group`, `for_course`, `for_phone`, `for_capitan`, `for_teammates`) VALUES
+(1, 'Пожалуйста, отправьте мне своё фото)', 'Ну давай же', NULL, 'Давай', NULL, NULL, NULL, NULL, NULL, NULL, NULL),
+(128, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '1', '2'),
+(129, NULL, NULL, 'Опишите свою группу', NULL, NULL, NULL, NULL, NULL, NULL, 'Назовите главного', 'Назовите своих приспешников'),
+(130, NULL, NULL, 'Опишите свою команду', NULL, NULL, NULL, NULL, NULL, NULL, 'ФИО капитана', 'ФИО спикеров'),
+(132, NULL, NULL, 'fnjkdjbgf', NULL, NULL, NULL, NULL, NULL, NULL, 'vndksjvnls', 'fhjgnksjdlfg'),
+(133, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '123', '321'),
+(134, NULL, NULL, 'аптиапр', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -378,6 +390,72 @@ CREATE TABLE `sublist122` (
   `description` text DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
+-- --------------------------------------------------------
+
+--
+-- Структура таблицы `sublist128`
+--
+
+CREATE TABLE `sublist128` (
+  `capitan` text COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `teammates1` text COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `teammates2` text COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `log` int(11) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Структура таблицы `sublist129`
+--
+
+CREATE TABLE `sublist129` (
+  `capitan` text COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `description` text COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `teammates1` text COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `teammates2` text COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `teammates3` text COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `log` int(11) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Структура таблицы `sublist132`
+--
+
+CREATE TABLE `sublist132` (
+  `capitan` text COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `description` text COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `teammates1` text COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `teammates2` text COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `log` int(11) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Структура таблицы `sublist133`
+--
+
+CREATE TABLE `sublist133` (
+  `capitan` text COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `teammates1` text COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `teammates2` text COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `log` int(11) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Структура таблицы `sublist134`
+--
+
+CREATE TABLE `sublist134` (
+  `description` text COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `log` int(11) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
 --
 -- Индексы сохранённых таблиц
 --
@@ -420,19 +498,19 @@ ALTER TABLE `qq_list`
 -- AUTO_INCREMENT для таблицы `admin`
 --
 ALTER TABLE `admin`
-  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=33;
+  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=36;
 
 --
 -- AUTO_INCREMENT для таблицы `events`
 --
 ALTER TABLE `events`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=123;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=135;
 
 --
 -- AUTO_INCREMENT для таблицы `inside_subs`
 --
 ALTER TABLE `inside_subs`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=63;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=66;
 
 --
 -- AUTO_INCREMENT для таблицы `messages`
