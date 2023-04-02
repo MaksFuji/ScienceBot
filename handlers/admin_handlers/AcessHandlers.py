@@ -11,6 +11,7 @@ from source.admin_states import AdminState
 from aiogram.types import message
 from aiogram.filters import Command, CommandStart, StateFilter, Text
 
+
 router: Router = Router()
 
 
@@ -31,6 +32,7 @@ slovar = {
 @router.message(Command(commands='Управление_персоналом'), StateFilter(AdminState.admin))
 async def ShowProcess(message : types.Message, state : FSMContext):
     UserList = await sql_users.show_users()
+    print(UserList)
     UID = message.from_user.id
     if UserList == 404:
         await message.answer('NO INSIDE SUBS', reply_markup = AdminMainMenu)
@@ -44,12 +46,12 @@ async def ShowProcess(message : types.Message, state : FSMContext):
                 t = f', желаемая должность: {slovar[UserList[i][5]]}'
             except:
                 t = ''
-            await bot.send_photo(UID, UserList[i][3], f'{slovar[isAdmin]} {UserList[i][2]}, {slovar[UserList[i][4]]} {t}',
+            await bot.send_photo(UID, UserList[i][3], caption=f'{slovar[isAdmin]} {UserList[i][2]}, {slovar[UserList[i][4]]} {t}',
                                  reply_markup=menu)
         await bot.send_message(UID, f'{len(UserList)} - количество авторизованных пользователей', reply_markup = AdminMainMenu)
 
 
-@router.message(Text(startswith="make_admin_"), StateFilter(AdminState.admin))
+@router.callback_query(Text(startswith='make_admin_'), StateFilter(AdminState.admin))
 async def AcessCallback(callback : types.CallbackQuery, state: FSMContext):
     log = callback.data.split('_')[2]
     result = await sql_admins.add_admin(log)
@@ -62,7 +64,7 @@ async def AcessCallback(callback : types.CallbackQuery, state: FSMContext):
         await state.set_state(AdminState.admin)
 
 
-@router.message(Text(startswith="USERdelete_"), StateFilter(AdminState.admin))
+@router.callback_query(Text(startswith="USERdelete_"), StateFilter(AdminState.admin))
 async def DeleteCallback(callback : types.CallbackQuery, state: FSMContext):
     log = callback.data.split('_')[1]
     AspirantAnswer = callback.data.split('_')[2]
@@ -77,7 +79,7 @@ async def DeleteCallback(callback : types.CallbackQuery, state: FSMContext):
     await state.set_state(AdminState.admin)
 
 
-@router.message(Text(startswith="promotion_"), StateFilter(AdminState.admin))
+@router.callback_query(Text(startswith="promotion_"), StateFilter(AdminState.admin))
 async def PromotionCallback(callback : types.CallbackQuery, state: FSMContext):
     log = callback.data.split('_')[1]
     target = callback.data.split('_')[2]

@@ -107,6 +107,11 @@ async def AdminBisProcess(message: types.Message):
     await message.answer(text=lexicon.LEXICON_USER_RU['destroy_keyboards'], reply_markup=types.ReplyKeyboardRemove())
     await message.answer(text=lexicon.LEXICON_USER_RU['bis_main'], reply_markup=BisMenu)
 
+@router.message(Command(commands='Прочее'), StateFilter(AdminState.admin))
+async def AdminBisProcess(message: types.Message):
+    await message.delete()
+    await message.answer(text=lexicon.LEXICON_USER_RU['nots_nil_other'])
+
 
 @router.message(Command(commands='Администрация'))
 async def AdministrationProcess(message: types.Message, state: FSMContext):

@@ -52,7 +52,7 @@ class FormSteps(StatesGroup):
     NewQuestion = State()
 
 
-@router.message(Command(commands=["create_form_"]), StateFilter(AdminState.admin))
+@router.callback_query(Text(startswith="create_form_"), StateFilter(AdminState.admin))
 async def WelcomeProcess(callback: types.CallbackQuery, state: FSMContext):
     await state.clear()
     a = callback.data.split('_')[2]
@@ -64,6 +64,7 @@ async def WelcomeProcess(callback: types.CallbackQuery, state: FSMContext):
     await state.set_state(FormSteps.NewColumn)
 
 
+@router.message(StateFilter(FormSteps.NewColumn))
 async def ColumnProcess(message: types.Message, state: FSMContext):
     ############### ПРОВЕРКА КОМАНДЫ ПО СЛОВАРЮ ####################################
 
@@ -160,6 +161,7 @@ async def ColumnProcess(message: types.Message, state: FSMContext):
                 await state.set_state(FormSteps.NewQuestion)
 
 
+@router.message(StateFilter(FormSteps.NewCountTeammates))
 async def CountTeammates(message: types.Message, state: FSMContext):
     MessageResult = message.text
 
@@ -198,6 +200,7 @@ async def CountTeammates(message: types.Message, state: FSMContext):
     await state.set_state(FormSteps.NewName)
 
 
+@router.message(StateFilter(FormSteps.NewName))
 async def NameButton(message: types.Message, state: FSMContext):
     if (message.text not in slovar) or (
             (message.text != "ФИО капитана команды") and (message.text != "ФИО участника команды")):
@@ -230,6 +233,7 @@ async def NameButton(message: types.Message, state: FSMContext):
     await state.set_state(FormSteps.NewQuestion)
 
 
+@router.message(StateFilter(FormSteps.NewQuestion))
 async def Question_Process(message: types.Message, state: FSMContext):
     data = await state.get_data()
     buffer_new = data['another_arr']
@@ -238,10 +242,3 @@ async def Question_Process(message: types.Message, state: FSMContext):
     await message.answer("Вы добавили вопрос к колонке. Введите новые колонки или нажмите 'завершить' ",
                          reply_markup=FormColumnMenu)
     await state.set_state(FormSteps.NewColumn)
-
-
-def register_CreateFormHandlers(router: router):
-    router.register_message_handler(ColumnProcess, state=FormSteps.NewColumn)
-    router.register_message_handler(CountTeammates, state=FormSteps.NewCountTeammates)
-    router.register_message_handler(NameButton, state=FormSteps.NewName)
-    router.register_message_handler(Question_Process, state=FormSteps.NewQuestion)

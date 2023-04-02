@@ -154,6 +154,7 @@ async def show_users():
     try:
         cursor.execute("SELECT * FROM inside_subs")
         res = cursor.fetchall()
+
         if len(res)<1:
             return 404
         else:

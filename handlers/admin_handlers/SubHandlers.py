@@ -10,7 +10,7 @@ from keyboards.inline_keyboards import SubMenu
 router: Router = Router()
 
 
-@router.message(Text(startswith="sub_button_"))
+@router.callback_query(Text(startswith="sub_button_"))
 async def SubCallback(callback : types.CallbackQuery):
     result = callback.data.split('_')[2]
     if result == "all":

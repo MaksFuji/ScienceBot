@@ -20,6 +20,7 @@ LEXICON_USER_RU: dict[str, str] = {
     'add_event': 'add event',
     'delete_event': 'delete event',
     'create_invite_code': 'create invite code',
+    'nots_nil_other': 'Какая-то информация',
 
     # ТЕКСТ MAIN TIOS И BIS INFO
     'tios_info': 'tios info',

@@ -24,6 +24,8 @@ async def main():
     # Выводим в консоль информацию о начале запуска бота
     logger.info('Starting bot')
 
+
+
     dp.include_router(ServiceHandlers.router)
     dp.include_router(SimpleHandlers.router)
     dp.include_router(SubHandlers.router)
