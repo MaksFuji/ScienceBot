@@ -1,15 +1,15 @@
 import mysql.connector
-from config import host, user, password, db_name, port
+from config_data import config
 
 def create_connection():
     connection = None
     try:
         connection = mysql.connector.connect(
-            host=host,
-            port = port,
-            user=user,
-            passwd=password,
-            database=db_name
+            host=config.db.db_host,
+            port=config.db.port,
+            user=config.db.db_user,
+            passwd=config.db.db_password,
+            database=config.db.database
         )
         print("Connection to MySQL DB successful")
     except Exception as e:
@@ -18,11 +18,11 @@ def create_connection():
 #ВНУТРЕННИЕ МЕРОПРИЯТИЯ
 async def add_sub_inside(login):
     connection = mysql.connector.connect(
-            host=host,
-            port = port,
-            user=user,
-            passwd=password,
-            database=db_name
+            host=config.db.db_host,
+            port=config.db.port,
+            user=config.db.db_user,
+            passwd=config.db.db_password,
+            database=config.db.database
         )
     cursor = connection.cursor()
     try:
@@ -39,11 +39,11 @@ async def add_sub_inside(login):
 
 async def extract_inside_subs():
     connection = mysql.connector.connect(
-            host=host,
-            port = port,
-            user=user,
-            passwd=password,
-            database=db_name
+            host=config.db.db_host,
+            port=config.db.port,
+            user=config.db.db_user,
+            passwd=config.db.db_password,
+            database=config.db.database
         )
     cursor = connection.cursor()
     try:
@@ -56,13 +56,14 @@ async def extract_inside_subs():
     finally:
         connection.close()
 
+
 async def delete_inside_sub(login):
     connection = mysql.connector.connect(
-            host=host,
-            port = port,
-            user=user,
-            passwd=password,
-            database=db_name
+            host=config.db.db_host,
+            port=config.db.port,
+            user=config.db.db_user,
+            passwd=config.db.db_password,
+            database=config.db.database
         )
     cursor = connection.cursor()
     try:
@@ -79,11 +80,11 @@ async def delete_inside_sub(login):
 #ВНЕШНИЕ МЕРОПРИЯТИЯ
 async def add_sub_outside(login):
     connection = mysql.connector.connect(
-            host=host,
-            port = port,
-            user=user,
-            passwd=password,
-            database=db_name
+            host=config.db.db_host,
+            port=config.db.port,
+            user=config.db.db_user,
+            passwd=config.db.db_password,
+            database=config.db.database
         )
     cursor = connection.cursor()
     try:
@@ -100,11 +101,11 @@ async def add_sub_outside(login):
 
 async def extract_outside_subs():
     connection = mysql.connector.connect(
-            host=host,
-            port = port,
-            user=user,
-            passwd=password,
-            database=db_name
+            host=config.db.db_host,
+            port=config.db.port,
+            user=config.db.db_user,
+            passwd=config.db.db_password,
+            database=config.db.database
         )
     cursor = connection.cursor()
     try:
@@ -119,11 +120,11 @@ async def extract_outside_subs():
 
 async def delete_outside_sub(login):
     connection = mysql.connector.connect(
-            host=host,
-            port = port,
-            user=user,
-            passwd=password,
-            database=db_name
+            host=config.db.db_host,
+            port=config.db.port,
+            user=config.db.db_user,
+            passwd=config.db.db_password,
+            database=config.db.database
         )
     cursor = connection.cursor()
     try:

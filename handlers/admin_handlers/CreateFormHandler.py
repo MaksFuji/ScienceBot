@@ -1,10 +1,9 @@
 from aiogram.types import ReplyKeyboardRemove, ReplyKeyboardMarkup, KeyboardButton
-from aiogram import types
-from aiogram.dispatcher import Dispatcher
+from aiogram import types, Router
 from create_bot import dp, bot
-from aiogram.dispatcher.filters import Text
-from aiogram.dispatcher import FSMContext
-from aiogram.dispatcher.filters.state import State, StatesGroup
+from aiogram.filters import Command, CommandStart, StateFilter, Text
+from aiogram.fsm.context import FSMContext
+from aiogram.filters.state import State, StatesGroup
 from datetime import datetime
 from keyboards.reply_keyboards import AdminMainMenu
 from sql_methods import sql_sublists, sql_qq, sql_events
@@ -13,7 +12,10 @@ from keyboards.reply_keyboards import AdminMainMenu, AdministrationMenu, FormCol
 import re
 from source import admin_states
 from source.admin_states import AdminState
+
 # from aiogram.dispatcher.filters import Text
+
+router: Router = Router()
 
 ### Здесь birth, а в sql_sublists BirthDate
 ### тоже самое с group и group_
@@ -31,7 +33,6 @@ slovar = {
     'ФИО участника команды': 'teammates',
     'id': 'айди'
 }
-
 
 # СОЗДАНИЕ ИНВЕРТИРОВАННОГО СЛОВАРЯ И ЕГО ЗАПИСЬ В ПЕРЕМЕННУЮ MSG
 # ПРИВЕСТИ ПЕРЕМЕННЫЕ В ЧИТАЕМЫЙ ВИД И РАЗОБРАТЬСЯ В АЛГОРИТМЕ
@@ -51,15 +52,16 @@ class FormSteps(StatesGroup):
     NewQuestion = State()
 
 
+@router.message(Command(commands=["create_form_"]), StateFilter(AdminState.admin))
 async def WelcomeProcess(callback: types.CallbackQuery, state: FSMContext):
-    await state.reset_data()
+    await state.clear()
     a = callback.data.split('_')[2]
     await state.update_data(id_=a)  # BUGFIX
     await state.update_data(columns_arr=['id', ])
     await state.update_data(another_arr=[a, ])
     await state.update_data(amount_members='0')
     await callback.message.answer('Выберите параметры для будующей формы', reply_markup=FormColumnMenu)
-    await FormSteps.NewColumn.set()
+    await state.set_state(FormSteps.NewColumn)
 
 
 async def ColumnProcess(message: types.Message, state: FSMContext):
@@ -78,13 +80,13 @@ async def ColumnProcess(message: types.Message, state: FSMContext):
                 await message.answer('Пожалуйста, введите новые параметры для формы', reply_markup=FormColumnMenu)
                 return
 
-            elif ((('capitan' in data['columns_arr']) or ('teammates' in data['columns_arr'])) and 
-                    (data['amount_members'] != '1')):
+            elif ((('capitan' in data['columns_arr']) or ('teammates' in data['columns_arr'])) and
+                  (data['amount_members'] != '1')):
                 await message.answer('''Выберите один из вариантов ниже''', reply_markup=FormNameColumnMenu)
-                await FormSteps.NewName.set()
+                await state.set_state(FormSteps.NewName)
 
-            elif ((('capitan' in data['columns_arr']) or ('teammates' in data['columns_arr'])) and 
-                    data['amount_members'] == '1'):
+            elif ((('capitan' in data['columns_arr']) or ('teammates' in data['columns_arr'])) and
+                  data['amount_members'] == '1'):
                 await message.answer('Пожалуйста, введите новые параметры для формы', reply_markup=FormColumnMenu)
                 return
 
@@ -92,7 +94,7 @@ async def ColumnProcess(message: types.Message, state: FSMContext):
                 await message.answer("Введите количество участников команды",
                                      reply_markup=types.ReplyKeyboardRemove())
 
-                await FormSteps.NewCountTeammates.set()
+                await state.set_state(FormSteps.NewCountTeammates)
 
         case _:
             ############### ЛОГИКА КНОПКИ ЗАВЕРШИТЬ ####################################
@@ -101,7 +103,7 @@ async def ColumnProcess(message: types.Message, state: FSMContext):
                 if len(data['columns_arr']) < 2:
                     await message.answer(f'{message.from_user.full_name} Пожалуйста, выберите параметры для формы!')
                     return
-                    
+
                 if (len(data['columns_arr']) - len(data['another_arr'])) == 0:
                     question_result = await sql_qq.add_qq(data['columns_arr'], data['another_arr'])
 
@@ -131,8 +133,8 @@ async def ColumnProcess(message: types.Message, state: FSMContext):
                     await sql_events.add_event_clmns(data['id_'], columns_str)
                     if columns_result == 1 and question_result == 1:
                         await message.answer('Форма сохранена в базе данных', reply_markup=AdminMainMenu)
-                        await admin_states.SetAdmin()
-            
+                        await state.set_state(AdminState.admin)
+
             ############### НА СЛУЧАЙ ПОВТОРЯЮЩИХСЯ ПАРАМЕТРОВ ####################################
             else:
                 data = await state.get_data()
@@ -155,7 +157,7 @@ async def ColumnProcess(message: types.Message, state: FSMContext):
             if MessageResult != 'complete':
                 await message.answer(f'''Отправь мне вопрос,  
     который бот задаст при заполнении поля ''', reply_markup=types.ReplyKeyboardRemove())
-                await FormSteps.NewQuestion.set()
+                await state.set_state(FormSteps.NewQuestion)
 
 
 async def CountTeammates(message: types.Message, state: FSMContext):
@@ -163,11 +165,10 @@ async def CountTeammates(message: types.Message, state: FSMContext):
 
     # Проверяем что было введено число и оно больше нуля
     if (not MessageResult.isnumeric()) or (MessageResult <= '0'):
-        await message.answer("Введите количество участников команды.\nПожалуйста, целым положительным числом.", 
-                                    reply_markup=types.ReplyKeyboardRemove())
-        await FormSteps.NewCountTeammates.set()
+        await message.answer("Введите количество участников команды.\nПожалуйста, целым положительным числом.",
+                             reply_markup=types.ReplyKeyboardRemove())
+        await state.set_state(FormSteps.NewCountTeammates)
         return
-
 
     await state.update_data(amount_members=MessageResult)
 
@@ -185,30 +186,31 @@ async def CountTeammates(message: types.Message, state: FSMContext):
 
         await message.answer(table_parameters)
 
-        await message.answer("Отправь мне вопрос,\nкоторый бот задаст при заполнении поля ", 
-                                reply_markup=types.ReplyKeyboardRemove())
-        
-        await FormSteps.NewQuestion.set()
+        await message.answer("Отправь мне вопрос,\nкоторый бот задаст при заполнении поля ",
+                             reply_markup=types.ReplyKeyboardRemove())
+
+        await state.set_state(FormSteps.NewQuestion)
 
         return
 
     # Если у нас несколько участников
     await message.answer("Выберите один из вариантов ниже", reply_markup=FormNameColumnMenu)
-    await FormSteps.NewName.set()
+    await state.set_state(FormSteps.NewName)
 
 
 async def NameButton(message: types.Message, state: FSMContext):
-    if (message.text not in slovar) or ((message.text != "ФИО капитана команды") and (message.text != "ФИО участника команды")):
+    if (message.text not in slovar) or (
+            (message.text != "ФИО капитана команды") and (message.text != "ФИО участника команды")):
         await message.answer("Пожалуйста, введите один из перечисленных параметров",
                              reply_markup=FormNameColumnMenu)
         return
-    
+
     MessageResult = slovar[message.text]
 
     data = await state.get_data()
     if MessageResult in data['columns_arr']:
         await message.answer("Пожалуйста, введите новые параметры для формы",
-                                     reply_markup=FormNameColumnMenu)
+                             reply_markup=FormNameColumnMenu)
         return
 
     buffer = data['columns_arr']
@@ -222,10 +224,10 @@ async def NameButton(message: types.Message, state: FSMContext):
 
     await message.answer(table_parameters)
 
-    await message.answer("Отправь мне вопрос,\nкоторый бот задаст при заполнении поля ", 
-                            reply_markup=types.ReplyKeyboardRemove())
-    
-    await FormSteps.NewQuestion.set()
+    await message.answer("Отправь мне вопрос,\nкоторый бот задаст при заполнении поля ",
+                         reply_markup=types.ReplyKeyboardRemove())
+
+    await state.set_state(FormSteps.NewQuestion)
 
 
 async def Question_Process(message: types.Message, state: FSMContext):
@@ -235,12 +237,11 @@ async def Question_Process(message: types.Message, state: FSMContext):
     await state.update_data(another_arr=buffer_new)
     await message.answer("Вы добавили вопрос к колонке. Введите новые колонки или нажмите 'завершить' ",
                          reply_markup=FormColumnMenu)
-    await FormSteps.NewColumn.set()
+    await state.set_state(FormSteps.NewColumn)
 
 
-def register_CreateFormHandlers(dp: Dispatcher):
-    dp.register_callback_query_handler(WelcomeProcess, Text(startswith="create_form_"), state=AdminState.admin)
-    dp.register_message_handler(ColumnProcess, state=FormSteps.NewColumn)
-    dp.register_message_handler(CountTeammates, state=FormSteps.NewCountTeammates)
-    dp.register_message_handler(NameButton, state=FormSteps.NewName)
-    dp.register_message_handler(Question_Process, state=FormSteps.NewQuestion)
+def register_CreateFormHandlers(router: router):
+    router.register_message_handler(ColumnProcess, state=FormSteps.NewColumn)
+    router.register_message_handler(CountTeammates, state=FormSteps.NewCountTeammates)
+    router.register_message_handler(NameButton, state=FormSteps.NewName)
+    router.register_message_handler(Question_Process, state=FormSteps.NewQuestion)

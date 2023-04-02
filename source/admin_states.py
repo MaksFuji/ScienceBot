@@ -1,13 +1,9 @@
-from aiogram.dispatcher import FSMContext
-from aiogram.dispatcher.filters.state import State, StatesGroup
+from aiogram.filters.state import State, StatesGroup
+from aiogram.fsm.context import FSMContext
+from aiogram.fsm.state import default_state
 
 
 class AdminState(StatesGroup):
-	admin = State()
-	user = State()
+    admin = State()
+    user = State()
 
-async def SetAdmin():
-	await AdminState.admin.set()
-
-async def SetUser():
-	await AdminState.user.set()

@@ -2,7 +2,7 @@
 #общие коды return для всех баз: 1 - все хорошо, 404 - чего-то нет, 606 - что-то уже есть, 808 - ошибка ввода 
 #################################################################################################################
 import mysql.connector
-from config import host,user,password, db_name,port
+from config_data import config
 from datetime import datetime
 #################################################################################################################
 #команда для запуска базы данных, стоит проверять наличие доступного подключения при запуске бота.
@@ -11,11 +11,11 @@ def create_connection():
     connection = None
     try:
         connection = mysql.connector.connect(
-            host=host,
-            port = port,
-            user=user,
-            passwd=password,
-            database=db_name
+            host=config.db.db_host,
+            port=config.db.port,
+            user=config.db.db_user,
+            passwd=config.db.db_password,
+            database=config.db.database
         )
         print("Connection to MySQL DB successful")
     except Exception as e:
@@ -26,11 +26,11 @@ def create_connection():
 #################################################################################################################
 async def add_event(name,type_, description, dat, img, tags, web_source):
     connection = mysql.connector.connect(
-            host=host,
-            port = port,
-            user=user,
-            passwd=password,
-            database=db_name
+            host=config.db.db_host,
+            port=config.db.port,
+            user=config.db.db_user,
+            passwd=config.db.db_password,
+            database=config.db.database
         )
     cursor = connection.cursor()
     try:
@@ -47,11 +47,11 @@ async def add_event(name,type_, description, dat, img, tags, web_source):
 #################################################################################################################
 async def extract_events():
     connection = mysql.connector.connect(
-            host=host,
-            port = port,
-            user=user,
-            passwd=password,
-            database=db_name
+            host=config.db.db_host,
+            port=config.db.port,
+            user=config.db.db_user,
+            passwd=config.db.db_password,
+            database=config.db.database
         )
     cursor = connection.cursor()
     try:
@@ -72,11 +72,11 @@ async def delete_event(some_data):
     if (str(some_data)).isdigit() == False:    
         return 808
     connection = mysql.connector.connect(
-            host=host,
-            port = port,
-            user=user,
-            passwd=password,
-            database=db_name
+            host=config.db.db_host,
+            port=config.db.port,
+            user=config.db.db_user,
+            passwd=config.db.db_password,
+            database=config.db.database
         )
     cursor = connection.cursor()
     try:
@@ -92,11 +92,11 @@ async def delete_event(some_data):
 
 async def clear_old():
     connection = mysql.connector.connect(
-            host=host,
-            port = port,
-            user=user,
-            passwd=password,
-            database=db_name
+            host=config.db.db_host,
+            port=config.db.port,
+            user=config.db.db_user,
+            passwd=config.db.db_password,
+            database=config.db.database
         )
     cursor = connection.cursor()
     try:
@@ -107,11 +107,11 @@ async def clear_old():
 
 async def extract_event_id(event_name):
     connection = mysql.connector.connect(
-            host=host,
-            port = port,
-            user=user,
-            passwd=password,
-            database=db_name
+            host=config.db.db_host,
+            port=config.db.port,
+            user=config.db.db_user,
+            passwd=config.db.db_password,
+            database=config.db.database
         )
     cursor = connection.cursor()
     try:
@@ -127,11 +127,11 @@ async def add_event_clmns(some_data, some_clmns):
     if (str(some_data)).isdigit() == False:
         return 808
     connection = mysql.connector.connect(
-            host=host,
-            port = port,
-            user=user,
-            passwd=password,
-            database=db_name
+            host=config.db.db_host,
+            port=config.db.port,
+            user=config.db.db_user,
+            passwd=config.db.db_password,
+            database=config.db.database
         )
     cursor = connection.cursor()
     try:

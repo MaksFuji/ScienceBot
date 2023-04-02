@@ -83,7 +83,6 @@ INSERT INTO `events` (`id`, `name`, `description`, `e_date`, `image`, `locate`, 
 --
 -- Структура таблицы `inside_subs`
 --
-
 CREATE TABLE `inside_subs` (
   `id` int(11) NOT NULL,
   `login` bigint(20) NOT NULL,

@@ -1,6 +1,6 @@
 from aiogram.types import InlineKeyboardMarkup, InlineKeyboardButton
 import mysql.connector
-from config import host, user, password, db_name, port
+from config_data import config
 import traceback
 
 ### Здесь BirthDate, а в CreateFormHandler birth
@@ -22,11 +22,11 @@ slovar = {
 
 async def try_sub(list_name, log):
     connection = mysql.connector.connect(
-        host=host,
-        port=port,
-        user=user,
-        passwd=password,
-        database=db_name
+        host=config.db.db_host,
+        port=config.db.port,
+        user=config.db.db_user,
+        passwd=config.db.db_password,
+        database=config.db.database
     )
     cursor = connection.cursor()
     try:
@@ -44,11 +44,11 @@ async def try_sub(list_name, log):
 
 async def create_sublist(list_name, columns):
     connection = mysql.connector.connect(
-        host=host,
-        port=port,
-        user=user,
-        passwd=password,
-        database=db_name
+        host=config.db.db_host,
+        port=config.db.port,
+        user=config.db.db_user,
+        passwd=config.db.db_password,
+        database=config.db.database
     )
     cursor = connection.cursor()
     try:
@@ -76,11 +76,11 @@ async def create_sublist(list_name, columns):
 
 async def add_sub(list_name, columns, content):
     connection = mysql.connector.connect(
-        host=host,
-        port=port,
-        user=user,
-        passwd=password,
-        database=db_name
+        host=config.db.db_host,
+        port=config.db.port,
+        user=config.db.db_user,
+        passwd=config.db.db_password,
+        database=config.db.database
     )
     cursor = connection.cursor()
     try:
@@ -104,11 +104,11 @@ async def add_sub(list_name, columns, content):
 
 async def extract_subs(list_name):
     connection = mysql.connector.connect(
-        host=host,
-        port=port,
-        user=user,
-        passwd=password,
-        database=db_name
+        host=config.db.db_host,
+        port=config.db.port,
+        user=config.db.db_user,
+        passwd=config.db.db_password,
+        database=config.db.database
     )
     cursor = connection.cursor()
     try:
@@ -125,11 +125,11 @@ async def extract_subs(list_name):
 
 async def delete_sub(list_name, log):
     connection = mysql.connector.connect(
-        host=host,
-        port=port,
-        user=user,
-        passwd=password,
-        database=db_name
+        host=config.db.db_host,
+        port=config.db.port,
+        user=config.db.db_user,
+        passwd=config.db.db_password,
+        database=config.db.database
     )
     cursor = connection.cursor()
     try:
@@ -148,11 +148,11 @@ async def delete_sub(list_name, log):
 
 # async def delete_sublist(name):
 #    connection = mysql.connector.connect(
-#            host=host,
-#            port = port,
-#            user=user,
-#            passwd=password,
-#            database=db_name
+#    host = config.db.db_host,
+#    port = config.db.port,
+#    user = config.db.db_user,
+#    passwd = config.db.db_password,
+#    database = config.db.database
 #        )
 #    cursor = connection.cursor()
 #    try:
