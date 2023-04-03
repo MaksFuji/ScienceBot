@@ -2,7 +2,6 @@ import asyncio
 import logging
 import os
 
-from aiogram import dispatcher
 from create_bot import dp, bot
 # Добавление команд
 from handlers.user_handlers import RegInsideHandler, ServiceHandlers, SimpleHandlers

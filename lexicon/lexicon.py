@@ -9,6 +9,8 @@ LEXICON_ADMIN_RU: dict[str, str] = {
 
 LEXICON_USER_RU: dict[str, str] = {
     '/start': 'добро пожаловать, ваш статус - Пользователь',
+    '/skipdm': 'автоматическое создание мероприятия',
+    '/events': 'Показать все мероприятия',
 
     # ТЕКСТ ДЛЯ ИНФОРМАЦИОННЫХ СООБЩЕНИЙ SimpleHandlers
     'nil_info': 'smthng nots nil info',
@@ -34,5 +36,6 @@ LEXICON_USER_RU: dict[str, str] = {
     # ОБЩИЙ ВСПОМОГАТЕЛЬНЫЙ ТЕКСТ
     'destroy_keyboards': 'убираю клавиатуру...',
     'not_admin': 'вы не Администратор',
-    'back_main_menu': 'Возвращаемся в главное меню'
+    'back_main_menu': 'Возвращаемся в главное меню',
+
 }

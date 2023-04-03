@@ -7,3 +7,5 @@ class AdminState(StatesGroup):
     admin = State()
     user = State()
 
+
+# тут были функции, через которые можно было получать состояния админа и юзера
