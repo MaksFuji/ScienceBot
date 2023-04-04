@@ -6,6 +6,7 @@ from create_bot import dp, bot
 # Добавление команд
 from handlers.user_handlers import RegInsideHandler, ServiceHandlers, SimpleHandlers
 from handlers.admin_handlers import CreateEventHandler, CreateFormHandler, AcessHandlers, ShowEvents, SubHandlers
+from source.keyboard_source import set_main_menu
 
 # Инициализируем логгер
 logger = logging.getLogger(__name__)
@@ -23,7 +24,7 @@ async def main():
     # Выводим в консоль информацию о начале запуска бота
     logger.info('Starting bot')
 
-
+    await set_main_menu(bot)
 
     dp.include_router(ServiceHandlers.router)
     dp.include_router(SimpleHandlers.router)

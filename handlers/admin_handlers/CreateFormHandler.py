@@ -178,7 +178,7 @@ async def CountTeammates(message: types.Message, state: FSMContext):
     if MessageResult == '1':
         data = await state.get_data()
         buffer = data['columns_arr']
-        buffer.append(MessageResult)
+        buffer.append('capitan')
 
         await state.update_data(columns_arr=buffer)
         table_parameters = "Выбранные параметры формы: "
