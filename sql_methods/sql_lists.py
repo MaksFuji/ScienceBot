@@ -67,7 +67,6 @@ async def delete_inside_sub(login):
         )
     cursor = connection.cursor()
     try:
-        print(login)
         cursor.execute("SELECT login FROM inside_subs WHERE login = %s", [login])
         if cursor.fetchone() is None:
             return 404

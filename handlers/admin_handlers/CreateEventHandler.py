@@ -86,7 +86,6 @@ async def UploadDescription(message : types.Message, state : FSMContext):
 # ОШИБКА ПРИ ДОБАВЛЕНИИ ФОТО, ЖАЛУЕТСЯ НА ЛЯМБДА ФУНКЦИЮ В ФИЛЬТРЕ
 @router.message(FilterDate(), StateFilter(CreatingSteps.Date))
 async def UploadDate(message : types.Message, state : FSMContext):
-    print(message.text)
     old_date = (message.text).split('/')#ЧЕЙ ТО ТАСК
     year = old_date[2].split(' ')[0]
     time = old_date[2].split(' ')[1]
