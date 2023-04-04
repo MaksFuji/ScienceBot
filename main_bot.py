@@ -1,20 +1,43 @@
-from aiogram.utils import executor
-from create_bot import dp, bot
+import asyncio
+import logging
 import os
-async def on_startup(_):
-	os.system('cls')
-	print('Мы вышли в онлайн. Закройте это окно чтобы прекратить работу')
-	#Добавление команд
-from handlers import SimpleHandlers, SubHandlers, CreateEventHandler, ServiceHandlers, CreateFormHandler, RegInsideHandler, AcessHandlers, ShowEvents
-try:
-	ServiceHandlers.register_ServiceHandlers(dp)
-	SimpleHandlers.register_SimpleHandlers(dp)
-	SubHandlers.register_SubHandlers(dp)
-	CreateEventHandler.register_CreatingEventHandler(dp)
-	CreateFormHandler.register_CreateFormHandlers(dp)
-	RegInsideHandler.register_RegInsideHandlers(dp)
-	AcessHandlers.register_AcessHandlers(dp)
-	ShowEvents.register_ShowEventsHandlers(dp)
-	executor.start_polling(dp, skip_updates = True, on_startup = on_startup)
-except Exception as e:
-	print(e)
+
+from create_bot import dp, bot
+# Добавление команд
+from handlers.user_handlers import RegInsideHandler, ServiceHandlers, SimpleHandlers
+from handlers.admin_handlers import CreateEventHandler, CreateFormHandler, AcessHandlers, ShowEvents, SubHandlers
+
+# Инициализируем логгер
+logger = logging.getLogger(__name__)
+
+
+async def main():
+    os.system('cls')
+
+    # Конфигурируем логирование
+    logging.basicConfig(
+        level=logging.INFO,
+        format='%(filename)s:%(lineno)d #%(levelname)-8s '
+               '[%(asctime)s] - %(name)s - %(message)s')
+
+    # Выводим в консоль информацию о начале запуска бота
+    logger.info('Starting bot')
+
+
+
+    dp.include_router(ServiceHandlers.router)
+    dp.include_router(SimpleHandlers.router)
+    dp.include_router(SubHandlers.router)
+    dp.include_router(CreateEventHandler.router)
+    dp.include_router(CreateFormHandler.router)
+    dp.include_router(RegInsideHandler.router)
+    dp.include_router(AcessHandlers.router)
+    dp.include_router(ShowEvents.router)
+
+    # Пропускаем накопившиеся апдейты и запускаем polling
+    await bot.delete_webhook(drop_pending_updates=True)
+    await dp.start_polling(bot)
+
+
+if __name__ == '__main__':
+    asyncio.run(main())

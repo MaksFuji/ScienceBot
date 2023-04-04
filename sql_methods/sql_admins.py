@@ -2,7 +2,7 @@
 #общие коды return для всех баз: 1 - все хорошо, 404 - чего-то нет, 606 - что-то уже есть 
 #################################################################################################################
 import mysql.connector
-from config import host,user,password, db_name,port
+from config_data import config
 #################################################################################################################
 #команда для запуска базы данных, стоит проверять наличие доступного подключения при запуске бота.
 #################################################################################################################
@@ -10,11 +10,11 @@ def create_connection():
     connection = None
     try:
         connection = mysql.connector.connect(
-            host=host,
-            port = port,
-            user=user,
-            passwd=password,
-            database=db_name
+            host= config.db.db_host,
+            port = config.db.port,
+            user = config.db.db_user,
+            passwd = config.db.db_password,
+            database = config.db.database
         )
         print("Connection to MySQL DB successful")
     except Exception as e:
@@ -26,11 +26,11 @@ def create_connection():
 #################################################################################################################
 async def add_admin(log):
     connection = mysql.connector.connect(
-            host=host,
-            port = port,
-            user=user,
-            passwd=password,
-            database=db_name
+            host=config.db.db_host,
+            port=config.db.port,
+            user=config.db.db_user,
+            passwd=config.db.db_password,
+            database=config.db.database
         )
     cursor = connection.cursor()
     try:
@@ -52,11 +52,11 @@ async def add_admin(log):
 #################################################################################################################
 async def delete_admin(log):
     connection = mysql.connector.connect(
-            host=host,
-            port = port,
-            user=user,
-            passwd=password,
-            database=db_name
+            host=config.db.db_host,
+            port=config.db.port,
+            user=config.db.db_user,
+            passwd=config.db.db_password,
+            database=config.db.database
         )
     cursor = connection.cursor()
     try:
@@ -75,11 +75,11 @@ async def delete_admin(log):
 #################################################################################################################
 async def log_in(log):
     connection = mysql.connector.connect(
-            host=host,
-            port = port,
-            user=user,
-            passwd=password,
-            database=db_name
+            host=config.db.db_host,
+            port=config.db.port,
+            user=config.db.db_user,
+            passwd=config.db.db_password,
+            database=config.db.database
         )
     cursor = connection.cursor()
     try:
@@ -95,11 +95,11 @@ async def log_in(log):
 #################################################################################################################
 async def add_project(log,prjct):
     connection = mysql.connector.connect(
-            host=host,
-            port = port,
-            user=user,
-            passwd=password,
-            database=db_name
+            host=config.db.db_host,
+            port=config.db.port,
+            user=config.db.db_user,
+            passwd=config.db.db_password,
+            database=config.db.database
         )
     cursor = connection.cursor()
     try:

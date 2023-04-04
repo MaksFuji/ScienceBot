@@ -2,7 +2,7 @@
 #общие коды return для всех баз: 1 - все хорошо, 404 - чего-то нет, 606 - что-то уже есть 
 #################################################################################################################
 import mysql.connector
-from config import host,user,password, db_name,port
+from config_data import config
 from aiogram.types import InlineKeyboardMarkup, InlineKeyboardButton
 #################################################################################################################
 #команда для запуска базы данных, стоит проверять наличие доступного подключения при запуске бота.
@@ -11,11 +11,11 @@ def create_connection():
     connection = None
     try:
         connection = mysql.connector.connect(
-            host=host,
-            port = port,
-            user=user,
-            passwd=password,
-            database=db_name
+            host=config.db.db_host,
+            port=config.db.port,
+            user=config.db.db_user,
+            passwd=config.db.db_password,
+            database=config.db.database
         )
         print("Connection to MySQL DB successful")
     except Exception as e:
@@ -24,11 +24,11 @@ def create_connection():
 
 async def promotion(log, target):
     connection = mysql.connector.connect(
-            host=host,
-            port = port,
-            user=user,
-            passwd=password,
-            database=db_name
+            host=config.db.db_host,
+            port=config.db.port,
+            user=config.db.db_user,
+            passwd=config.db.db_password,
+            database=config.db.database
         )
     cursor = connection.cursor()
     try:
@@ -50,11 +50,11 @@ async def promotion(log, target):
 
 async def extract_target(log):
     connection = mysql.connector.connect(
-            host=host,
-            port = port,
-            user=user,
-            passwd=password,
-            database=db_name
+            host=config.db.db_host,
+            port=config.db.port,
+            user=config.db.db_user,
+            passwd=config.db.db_password,
+            database=config.db.database
         )
     cursor = connection.cursor()
     try:
@@ -77,11 +77,11 @@ async def extract_target(log):
 #################################################################################################################
 async def add_user(log, name, typ, target, photo):
     connection = mysql.connector.connect(
-            host=host,
-            port = port,
-            user=user,
-            passwd=password,
-            database=db_name
+            host=config.db.db_host,
+            port=config.db.port,
+            user=config.db.db_user,
+            passwd=config.db.db_password,
+            database=config.db.database
         )
     cursor = connection.cursor()
     try:
@@ -103,11 +103,11 @@ async def add_user(log, name, typ, target, photo):
 #################################################################################################################
 async def delete_user(log):
     connection = mysql.connector.connect(
-            host=host,
-            port = port,
-            user=user,
-            passwd=password,
-            database=db_name
+            host=config.db.db_host,
+            port=config.db.port,
+            user=config.db.db_user,
+            passwd=config.db.db_password,
+            database=config.db.database
         )
     cursor = connection.cursor()
     try:
@@ -126,11 +126,11 @@ async def delete_user(log):
 #################################################################################################################
 async def log_in(log):
     connection = mysql.connector.connect(
-            host=host,
-            port = port,
-            user=user,
-            passwd=password,
-            database=db_name
+        host=config.db.db_host,
+        port=config.db.port,
+        user=config.db.db_user,
+        passwd=config.db.db_password,
+        database=config.db.database
         )
     cursor = connection.cursor()
     try:
@@ -144,16 +144,17 @@ async def log_in(log):
 
 async def show_users():
     connection = mysql.connector.connect(
-            host=host,
-            port = port,
-            user=user,
-            passwd=password,
-            database=db_name
+            host=config.db.db_host,
+            port=config.db.port,
+            user=config.db.db_user,
+            passwd=config.db.db_password,
+            database=config.db.database
         )
     cursor = connection.cursor()
     try:
         cursor.execute("SELECT * FROM inside_subs")
         res = cursor.fetchall()
+
         if len(res)<1:
             return 404
         else:
@@ -163,11 +164,11 @@ async def show_users():
 
 async def show_user(log):
     connection = mysql.connector.connect(
-            host=host,
-            port = port,
-            user=user,
-            passwd=password,
-            database=db_name
+            host=config.db.db_host,
+            port=config.db.port,
+            user=config.db.db_user,
+            passwd=config.db.db_password,
+            database=config.db.database
         )
     cursor = connection.cursor()
     try:
