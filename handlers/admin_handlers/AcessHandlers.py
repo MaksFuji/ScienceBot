@@ -32,7 +32,6 @@ slovar = {
 @router.message(Command(commands='Управление_персоналом'), StateFilter(AdminState.admin))
 async def ShowProcess(message : types.Message, state : FSMContext):
     UserList = await sql_users.show_users()
-    print(UserList)
     UID = message.from_user.id
     if UserList == 404:
         await message.answer('NO INSIDE SUBS', reply_markup = AdminMainMenu)

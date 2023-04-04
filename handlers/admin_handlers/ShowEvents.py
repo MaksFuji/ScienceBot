@@ -44,7 +44,7 @@ async def ShowEventsProcess(message : types.Message, state : FSMContext):
             IsSub = await sql_sublists.try_sub(EventId, message.from_user.id)
             Menu = await InlineRegMenu(isAdmin, URL, EventId, IsSub, message.from_user.id)
             if EventPhotoId != 0:
-                await bot.send_photo(message.from_user.id, EventPhotoId, f"""{EventName}
+                await bot.send_photo(message.from_user.id, EventPhotoId, caption=f"""{EventName}
 {EventType} мероприятие
 {EventDescription}
 дата проведения: {EventDate}""", reply_markup = Menu)
