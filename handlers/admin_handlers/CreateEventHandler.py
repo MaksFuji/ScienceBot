@@ -86,10 +86,24 @@ async def UploadDescription(message : types.Message, state : FSMContext):
 # ОШИБКА ПРИ ДОБАВЛЕНИИ ФОТО, ЖАЛУЕТСЯ НА ЛЯМБДА ФУНКЦИЮ В ФИЛЬТРЕ
 @router.message(FilterDate(), StateFilter(CreatingSteps.Date))
 async def UploadDate(message : types.Message, state : FSMContext):
-    old_date = (message.text).split('/')#ЧЕЙ ТО ТАСК
-    year = old_date[2].split(' ')[0]
-    time = old_date[2].split(' ')[1]
-    new_date = "" + year + '-' + old_date[1] + '-' + old_date[0] + ' ' + time
+    # old_date = (message.text).split('/')#ЧЕЙ ТО ТАСК
+    # year = old_date[2].split(' ')[0]
+    # time = old_date[2].split(' ')[1]
+    # new_date = "" + year + '-' + old_date[1] + '-' + old_date[0] + ' ' + time
+
+    nums = [int(i) for i in re.findall(r"\d{4}|\d{3}|\d{2}|\d{1}", message.text)]
+    
+    if len(nums) == 4: # если минуты не указаны
+        day, month, year, hours = nums
+        minute = 0
+    else:
+        day, month, year, hours, minute = nums
+    
+    if year < 100: # если год указан 2 числами, например 23, а не 2023
+        year += 2000
+    
+    new_date = f"{year}-{month:02d}-{day:02d} {hours:02d}:{minute:02d}:00"
+
     await state.update_data(date = new_date)
     await message.answer('send web resourse or "нет"')
     await state.set_state(CreatingSteps.WebSource)
